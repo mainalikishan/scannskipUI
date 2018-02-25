@@ -1,15 +1,22 @@
 page-login {
   .login-content {
-
-
     .scroll-content {
       padding: 0 !important;
     }
 
-    .logo-row {
+    .logo-box {
       background: #6C448D;
-      padding-top: 50px;
-      padding-bottom: 50px;
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+
+    .intro-title {
+      text-align: center;
+      color: #FFFFFF;
+      font-size: 30px;
+      font-weight: 400;
+      line-height: 1.1;
+      /* letter-spacing: -2px; */
     }
 
     .login-box {
