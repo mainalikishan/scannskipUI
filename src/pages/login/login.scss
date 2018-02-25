@@ -1,3 +1,62 @@
-page-home {
+page-login {
+  .login-content {
 
+
+    .scroll-content {
+      padding: 0 !important;
+    }
+
+    .logo-row {
+      background: #6C448D;
+      padding-top: 50px;
+      padding-bottom: 50px;
+    }
+
+    .login-box {
+      background: #FFFFFF;
+      // padding: 20px 20px 0px 20px;
+      margin-top: 30px;
+    }
+
+    ion-row {
+      align-items: center;
+      text-align: center;
+    }
+
+    ion-item {
+      background: #F4F2F7;
+      border-radius: 0 !important;
+      padding-left: 0 !important;
+      font-size: 0.9em;
+      margin-bottom: 10px;
+      border: 1px solid #ffffff;
+      border-bottom: 0 !important;
+      box-shadow: none !important;
+    }
+
+    .signup-col {
+      margin: 0 16px;
+      padding-bottom: 20px;
+    }
+
+    .item-inner {
+      border-bottom-color: #ffffff !important;
+      box-shadow: none !important;
+    }
+
+    .submit-btn {
+      background: #EE7089;
+    }
+
+    .register-btn {
+      color: #6C448D;
+      font-size: 0.8em;
+    }
+
+    .btn-facebook {
+      color: #fff;
+      background-color: #3b5998;
+      border-color: rgba(0,0,0,0.2);
+    }
+  }
 }

@@ -15,6 +15,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 // for social login
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 
 var config = {
   apiKey: "AIzaSyBN4NdvyqX3YiKP4KiLAfk3wSJ0PRiHzkA",
@@ -52,7 +53,8 @@ var config = {
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    AuthServiceProvider
   ]
 })
 export class AppModule { }

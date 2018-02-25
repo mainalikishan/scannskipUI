@@ -25715,3 +25715,64 @@ page-home p {
 page-home p b {
   color: #000000;
 }
+
+page-login .login-content .scroll-content {
+  padding: 0 !important;
+}
+
+page-login .login-content .logo-row {
+  background: #6C448D;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+page-login .login-content .login-box {
+  background: #FFFFFF;
+  margin-top: 30px;
+}
+
+page-login .login-content ion-row {
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+}
+
+page-login .login-content ion-item {
+  background: #F4F2F7;
+  border-radius: 0 !important;
+  padding-left: 0 !important;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+  border: 1px solid #ffffff;
+  border-bottom: 0 !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+page-login .login-content .signup-col {
+  margin: 0 16px;
+  padding-bottom: 20px;
+}
+
+page-login .login-content .item-inner {
+  border-bottom-color: #ffffff !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+page-login .login-content .submit-btn {
+  background: #EE7089;
+}
+
+page-login .login-content .register-btn {
+  color: #6C448D;
+  font-size: 0.8em;
+}
+
+page-login .login-content .btn-facebook {
+  color: #fff;
+  background-color: #3b5998;
+  border-color: rgba(0, 0, 0, 0.2);
+}
