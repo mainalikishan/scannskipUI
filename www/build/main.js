@@ -204,19 +204,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-// import { NavController } from 'ionic-angular';
 
 
 
 
 var LoginPage = (function () {
-    function LoginPage(nav, auth, alertCtrl, loadingCtrl, fire, navCtrl) {
+    function LoginPage(nav, auth, alertCtrl, loadingCtrl, fire) {
         this.nav = nav;
         this.auth = auth;
         this.alertCtrl = alertCtrl;
         this.loadingCtrl = loadingCtrl;
         this.fire = fire;
-        this.navCtrl = navCtrl;
         this.registerCredentials = { email: '', password: '' };
     }
     LoginPage.prototype.createAccount = function () {
@@ -227,10 +225,10 @@ var LoginPage = (function () {
         this.showLoading();
         this.auth.login(this.registerCredentials).subscribe(function (allowed) {
             if (allowed) {
-                _this.nav.setRoot('HomePage');
+                _this.nav.setRoot(HomePage);
             }
             else {
-                _this.showError("Access Denied");
+                _this.showError("The username and password you entered did not match our records. Please double-check and try again.");
             }
         }, function (error) {
             _this.showError(error);
@@ -246,7 +244,7 @@ var LoginPage = (function () {
     LoginPage.prototype.showError = function (text) {
         this.loading.dismiss();
         var alert = this.alertCtrl.create({
-            title: 'Fail',
+            title: 'Invalid!',
             subTitle: text,
             buttons: ['OK']
         });
@@ -260,16 +258,12 @@ var LoginPage = (function () {
     };
     LoginPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-login',template:/*ion-inline-start:"/Users/mainalikishan/School/FINALSEM/CS595/Client/scannskipUI/src/pages/login/login.html"*/'<ion-content class="login-content" padding>\n  <div class="logo-box">\n    <ion-row>\n      <ion-col></ion-col>\n      <ion-col width-67>\n        <img src="assets/imgs/logo.png" />\n      </ion-col>\n      <ion-col></ion-col>\n    </ion-row>\n    <h1 class="intro-title">{{ \'{\' }} Scan-N-Skip {{ \'}\' }}</h1>\n  </div>\n\n  <div class="login-box">\n    <form (ngSubmit)="login()" #registerForm="ngForm">\n      <ion-row>\n        <ion-col>\n          <ion-list inset>\n            <ion-item>\n              <ion-input type="text" placeholder="Email" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>\n            </ion-item>\n\n          </ion-list>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col class="signup-col">\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Login</button>\n          <button ion-button (click)="loginWithFacebook()" full class="btn-facebook">\n            Login with Facebook\n          </button>\n          <button ion-button class="register-btn" block clear (click)="createAccount()">Need new account? Register</button>\n        </ion-col>\n      </ion-row>\n    </form>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/Users/mainalikishan/School/FINALSEM/CS595/Client/scannskipUI/src/pages/login/login.html"*/
+            selector: 'page-login',template:/*ion-inline-start:"/Users/mainalikishan/School/FINALSEM/CS595/Client/scannskipUI/src/pages/login/login.html"*/'<ion-content class="login-content" padding>\n  <div class="logo-box">\n    <ion-row>\n      <ion-col></ion-col>\n      <ion-col width-67>\n        <img src="assets/imgs/logo(white).png" />\n      </ion-col>\n      <ion-col></ion-col>\n    </ion-row>\n    <!-- <h1 class="intro-title">{{ \'{\' }} Scan-N-Skip {{ \'}\' }}</h1> -->\n  </div>\n\n  <div class="login-box">\n    <form (ngSubmit)="login()" #registerForm="ngForm">\n      <ion-row>\n        <ion-col>\n          <ion-list inset>\n            <ion-item>\n              <ion-input type="text" placeholder="Email" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>\n            </ion-item>\n\n          </ion-list>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col class="signup-col">\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Login</button>\n          <button ion-button (click)="loginWithFacebook()" full class="btn-facebook">\n            Login with Facebook\n          </button>\n          <button ion-button class="register-btn" block clear (click)="createAccount()">Need new account? Register</button>\n        </ion-col>\n      </ion-row>\n    </form>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/Users/mainalikishan/School/FINALSEM/CS595/Client/scannskipUI/src/pages/login/login.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_auth_service_auth_service__["a" /* AuthServiceProvider */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */],
-            __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["a" /* AngularFireAuth */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__providers_auth_service_auth_service__["a" /* AuthServiceProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_auth_service_auth_service__["a" /* AuthServiceProvider */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["a" /* AngularFireAuth */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["a" /* AngularFireAuth */]) === "function" && _e || Object])
     ], LoginPage);
     return LoginPage;
+    var _a, _b, _c, _d, _e;
 }());
 
 //# sourceMappingURL=login.js.map

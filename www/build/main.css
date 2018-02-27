@@ -25721,9 +25721,9 @@ page-login .login-content .scroll-content {
 }
 
 page-login .login-content .logo-box {
-  background: #6C448D;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  background: #69D77D;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 page-login .login-content .intro-title {
@@ -25772,11 +25772,11 @@ page-login .login-content .item-inner {
 }
 
 page-login .login-content .submit-btn {
-  background: #EE7089;
+  background: #69D77D;
 }
 
 page-login .login-content .register-btn {
-  color: #6C448D;
+  color: #69D77D;
   font-size: 0.8em;
 }
 

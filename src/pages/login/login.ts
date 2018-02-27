@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-// import { NavController } from 'ionic-angular';
-import { NavController, AlertController, LoadingController, Loading, IonicPage } from 'ionic-angular';
-
+import { NavController, AlertController, LoadingController, Loading} from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
@@ -19,8 +17,7 @@ export class LoginPage {
     private auth: AuthServiceProvider,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
-    private fire: AngularFireAuth,
-    public navCtrl: NavController) {
+    private fire: AngularFireAuth) {
 
   }
 
@@ -32,9 +29,9 @@ export class LoginPage {
     this.showLoading()
     this.auth.login(this.registerCredentials).subscribe(allowed => {
       if (allowed) {
-        this.nav.setRoot('HomePage');
+        this.nav.setRoot(HomePage);
       } else {
-        this.showError("Access Denied");
+        this.showError("The username and password you entered did not match our records. Please double-check and try again.");
       }
     },
       error => {
@@ -54,7 +51,7 @@ export class LoginPage {
     this.loading.dismiss();
 
     let alert = this.alertCtrl.create({
-      title: 'Fail',
+      title: 'Invalid!',
       subTitle: text,
       buttons: ['OK']
     });
