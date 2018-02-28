@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Platform } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
-/**
- * Generated class for the MainPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { LoginPage } from '../login/login';
 
 @IonicPage()
 @Component({
@@ -15,11 +13,36 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class MainPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  username = '';
+  email = '';
+  constructor(
+    private platform: Platform,
+    public navCtrl: NavController,
+    private auth: AuthServiceProvider,
+    private barcodeScanner: BarcodeScanner) {
+    let info = this.auth.getUserInfo();
+    this.username = info['name'];
+    this.email = info['email'];
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MainPage');
+  public scanBarcode() {
+    this.platform.ready().then(() => {
+
+      this.barcodeScanner.scan().then((barcodeData) => {
+        // Success! Barcode data is here
+        console.log(barcodeData);
+        alert("UPC CODE: " + barcodeData.text);
+      }, (err) => {
+        // An error occurred
+        alert("This functionality only works in emulator or real device!");
+      });
+   });
   }
+
+  public logout() {
+  this.auth.logout().subscribe(succ => {
+    this.navCtrl.setRoot(LoginPage)
+  });
+}
 
 }

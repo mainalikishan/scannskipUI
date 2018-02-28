@@ -3,16 +3,36 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Scan N Skip</ion-title>
+    <ion-title>Welcome, {{username}}!</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <img src="assets/imgs/1.scan.png" class="slide-image"/>
+  <!-- <img src="assets/imgs/scan-1.jpg" class="slide-image"/> -->
+  <ion-card>
+  <img src="assets/imgs/scan-1.jpg"/>
+  <ion-item>
+    <ion-icon name="ios-checkmark-circle-outline" item-start large></ion-icon>
+    <h2>Save Time</h2>
+    <p>Scan your item yourself</p>
+  </ion-item>
+
+  <ion-item>
+    <ion-icon name="ios-checkmark-circle-outline" item-left large ></ion-icon>
+    <h2>Skip the Line</h2>
+    <p>No need to wait for cahier</p>
+  </ion-item>
+
+  <ion-item>
+    <ion-icon name="ios-checkmark-circle-outline" item-left large ></ion-icon>
+    <h2>Go cashless</h2>
+    <p>Pay online - leave your cash and card home :)</p>
+  </ion-item>
+</ion-card>
 </ion-content>
 
 <ion-footer>
-  <button ion-button full color="secondary">
+  <button ion-button full (click)="scanBarcode()" large>
     Scan Barcode
   </button>
 </ion-footer>

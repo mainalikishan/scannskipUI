@@ -5,12 +5,14 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
+import { RegisterPage } from '../pages/register/register';
 import { CartPage } from '../pages/cart/cart';
-import { ListPage } from '../pages/list/list';
 import { MainPage } from '../pages/main/main';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Camera } from '@ionic-native/camera';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 // for social login
 import { AngularFireModule } from 'angularfire2';
@@ -31,8 +33,8 @@ var config = {
     MyApp,
     HomePage,
     LoginPage,
+    RegisterPage,
     CartPage,
-    ListPage,
     MainPage
   ],
   imports: [
@@ -46,13 +48,15 @@ var config = {
     MyApp,
     HomePage,
     LoginPage,
+    RegisterPage,
     CartPage,
-    ListPage,
     MainPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    Camera,
+    BarcodeScanner,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthServiceProvider
   ]

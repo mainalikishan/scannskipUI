@@ -3,7 +3,7 @@
     <ion-row>
       <ion-col></ion-col>
       <ion-col width-67>
-        <img src="assets/imgs/logo(white).png" />
+        <img src="assets/imgs/logo.png" />
       </ion-col>
       <ion-col></ion-col>
     </ion-row>
@@ -26,16 +26,19 @@
           </ion-list>
         </ion-col>
       </ion-row>
-
       <ion-row>
-        <ion-col class="signup-col">
-          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Login</button>
-          <button ion-button (click)="loginWithFacebook()" full class="btn-facebook">
-            Login with Facebook
-          </button>
-          <button ion-button class="register-btn" block clear (click)="createAccount()">Need new account? Register</button>
+        <ion-col class="login-col">
+          <button ion-button full type="submit" [disabled]="!registerForm.form.valid" large>Login</button>
         </ion-col>
       </ion-row>
     </form>
+    <ion-row>
+      <ion-col class="signup-col">
+        <button ion-button (click)="loginWithFacebook()" full class="btn-facebook">
+          Login with Facebook
+        </button>
+        <button ion-button class="register-btn" block clear (click)="createAccount()">Need new account? Register</button>
+      </ion-col>
+    </ion-row>
   </div>
 </ion-content>

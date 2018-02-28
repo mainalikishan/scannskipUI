@@ -4,6 +4,9 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
+import { MainPage } from '../main/main';
+import { RegisterPage } from '../register/register';
+
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
@@ -13,7 +16,7 @@ export class LoginPage {
   registerCredentials = { email: '', password: '' };
 
   constructor(
-    private nav: NavController,
+    public navCtrl: NavController,
     private auth: AuthServiceProvider,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
@@ -22,14 +25,14 @@ export class LoginPage {
   }
 
   public createAccount() {
-    // this.nav.push('RegisterPage');
+    this.navCtrl.push(RegisterPage);
   }
 
   public login() {
     this.showLoading()
     this.auth.login(this.registerCredentials).subscribe(allowed => {
       if (allowed) {
-        this.nav.setRoot(HomePage);
+        this.navCtrl.setRoot(MainPage);
       } else {
         this.showError("The username and password you entered did not match our records. Please double-check and try again.");
       }
