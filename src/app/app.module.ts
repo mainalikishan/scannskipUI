@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -13,6 +14,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Camera } from '@ionic-native/camera';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { HTTP } from '@ionic-native/http';
 
 // for social login
 import { AngularFireModule } from 'angularfire2';
@@ -39,6 +41,7 @@ var config = {
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp),
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireModule.initializeApp(config)
@@ -55,6 +58,8 @@ var config = {
   providers: [
     StatusBar,
     SplashScreen,
+    HTTP,
+    HttpClientModule,
     Camera,
     BarcodeScanner,
     { provide: ErrorHandler, useClass: IonicErrorHandler },

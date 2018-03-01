@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, AlertController, LoadingController, Loading } from 'ionic-angular';
+
+import firebase from 'firebase';
+
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
 @Component({
@@ -7,16 +10,26 @@ import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
   templateUrl: 'register.html',
 })
 export class RegisterPage {
+  loading: Loading;
   createSuccess = false;
   registerCredentials = { name: '', email: '', phone: '', password: '' };
 
   constructor(
     private nav: NavController,
     private auth: AuthServiceProvider,
-    private alertCtrl: AlertController) {
+    private alertCtrl: AlertController,
+    private loadingCtrl: LoadingController,
+    private fire: AngularFireAuth) {
     }
 
   public register() {
+    this.showLoading();
+    this.fire.auth.createUserWithEmailAndPassword(this.registerCredentials.email, this.registerCredentials.password).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ...
+    });
     this.auth.register(this.registerCredentials).subscribe(success => {
       if (success) {
         this.createSuccess = true;
@@ -24,10 +37,19 @@ export class RegisterPage {
       } else {
         this.showPopup("Error", "Problem creating account.");
       }
+      this.loading.dismiss();
     },
       error => {
         this.showPopup("Error", error);
       });
+  }
+
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+      content: 'Please wait...',
+      dismissOnPageChange: true
+    });
+    this.loading.present();
   }
 
   showPopup(title, text) {
