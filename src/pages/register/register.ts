@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController, LoadingController, Loading } from 'ionic-angular';
-
+import { AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase';
 
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
@@ -24,24 +24,28 @@ export class RegisterPage {
 
   public register() {
     this.showLoading();
+    var that = this;
     this.fire.auth.createUserWithEmailAndPassword(this.registerCredentials.email, this.registerCredentials.password).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
       // ...
+      that.showPopup("Fail", errorMessage);
+      that.loading.dismiss();
+      console.log(error);
     });
-    this.auth.register(this.registerCredentials).subscribe(success => {
-      if (success) {
-        this.createSuccess = true;
-        this.showPopup("Success", "Account created.");
-      } else {
-        this.showPopup("Error", "Problem creating account.");
-      }
-      this.loading.dismiss();
-    },
-      error => {
-        this.showPopup("Error", error);
-      });
+    // this.auth.register(this.registerCredentials).subscribe(success => {
+    //   if (success) {
+    //     this.createSuccess = true;
+    //     this.showPopup("Success", "Account created.");
+    //   } else {
+    //     this.showPopup("Error", "Problem creating account.");
+    //   }
+    //   this.loading.dismiss();
+    // },
+    //   error => {
+    //     this.showPopup("Error", error);
+    //   });
   }
 
   showLoading() {
