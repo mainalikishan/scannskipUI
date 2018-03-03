@@ -24,13 +24,15 @@ export class AuthServiceProvider {
   currentUser: User;
 
   public login(credentials) {
-    if (credentials.email === null || credentials.password === null) {
+      // if (credentials.email === null || credentials.password === null) {
+    if (credentials.email === null) {
       return Observable.throw("Please insert credentials");
     } else {
       return Observable.create(observer => {
         // At this point make a request to your backend to make a real check!
-        let access = (credentials.password === "pass" && credentials.email === "Email");
-        this.currentUser = new User('Kishan', 'mainalikishan@gmail.com');
+        // credentials.password === "pass" &&
+        let access = (credentials.email === credentials.email);
+        this.currentUser = new User(credentials.displayName, credentials.email);
         observer.next(access);
         observer.complete();
       });

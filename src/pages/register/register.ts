@@ -3,8 +3,6 @@ import { NavController, AlertController, LoadingController, Loading } from 'ioni
 import { AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase';
 
-import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
-
 @Component({
   selector: 'page-register',
   templateUrl: 'register.html',
@@ -16,24 +14,35 @@ export class RegisterPage {
 
   constructor(
     private nav: NavController,
-    private auth: AuthServiceProvider,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     private fire: AngularFireAuth) {
-    }
+  }
 
   public register() {
     this.showLoading();
     var that = this;
-    this.fire.auth.createUserWithEmailAndPassword(this.registerCredentials.email, this.registerCredentials.password).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ...
-      that.showPopup("Fail", errorMessage);
-      that.loading.dismiss();
-      console.log(error);
-    });
+    this.fire.auth.createUserWithEmailAndPassword(this.registerCredentials.email, this.registerCredentials.password)
+      .then(function(user) {
+        // var user = this.fire.auth.currentUser;
+        console.log(user);
+        user.updateProfile({
+          displayName: that.registerCredentials.name
+        }).then(function() {
+          that.showPopup("Success", "Account created!");
+        }).catch(function(error) {
+          alert(error);
+        });
+        // that.showPopup("Success", "Account created.");
+      }).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+        that.showPopup("Invalid!", errorMessage);
+        that.loading.dismiss();
+        console.log(error);
+      });
     // this.auth.register(this.registerCredentials).subscribe(success => {
     //   if (success) {
     //     this.createSuccess = true;
