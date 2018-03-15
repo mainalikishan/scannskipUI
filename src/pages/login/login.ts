@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, LoadingController, Loading } from 'ionic-angular';
+import { NavController, AlertController, LoadingController, Loading } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
@@ -17,7 +17,7 @@ export class LoginPage {
   constructor(
     public navCtrl: NavController,
     private auth: AuthServiceProvider,
-    private toastCtrl: ToastController,
+    private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     private fire: AngularFireAuth) {
     var that = this;
@@ -33,7 +33,7 @@ export class LoginPage {
           if (allowed) {
             that.navCtrl.setRoot(MainPage);
           } else {
-            that.showToast('bottom', "The username and password you entered did not match our records. Please double-check and try again.");
+            that.showPopup('Whoos!', "The username and password you entered did not match our records. Please double-check and try again.");
           }
         });
         console.log(result.user);
@@ -57,26 +57,36 @@ export class LoginPage {
 
   public login() {
     var that = this;
-    this.showLoading();
-    this.fire.auth.signInWithEmailAndPassword(this.registerCredentials.email, this.registerCredentials.password)
-    .then(function(credentials) {
-      console.log(credentials);
-      that.auth.login(credentials).subscribe(allowed => {
-        if (allowed) {
-          that.navCtrl.setRoot(MainPage);
-        } else {
-          that.showToast('bottom', "The username and password you entered did not match our records. Please double-check and try again.");
-        }
-      },
-        error => {
-          this.showError(error);
+    if (this.validation()) {
+      this.showLoading();
+      this.fire.auth.signInWithEmailAndPassword(this.registerCredentials.email, this.registerCredentials.password)
+        .then(function(credentials) {
+          // console.log(credentials);
+          that.auth.login(credentials).subscribe(allowed => {
+            if (allowed) {
+              that.navCtrl.setRoot(MainPage);
+            } else {
+              that.showPopup('Whoos!', "The username and password you entered did not match our records. Please double-check and try again.");
+            }
+          },
+            error => {
+              this.showError(error);
+            });
+        }).catch(function(error) {
+          // Handle Errors here.
+          var errorMessage = error.message;
+          // that.showError(errorMessage);
+          that.showPopup('Whoos!', 'The username and password you entered did not match our records. Please double-check and try again.');
         });
-    }).catch(function(error) {
-      // Handle Errors here.
-      var errorMessage = error.message;
-      // that.showError(errorMessage);
-      that.showToast('bottom', 'The username and password you entered did not match our records. Please double-check and try again.');
-    });
+    }
+  }
+
+  validation() {
+    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.registerCredentials.email))) {
+      this.showPopup("Whoops!", "The username and password you entered did not match our records. Please double-check and try again.");
+      return false;
+    }
+    return true;
   }
 
   showLoading() {
@@ -87,15 +97,14 @@ export class LoginPage {
     this.loading.present();
   }
 
-  showToast(position: string, message: string) {
-    let toast = this.toastCtrl.create({
-      message: message,
-      showCloseButton: true,
-      closeButtonText: 'OK',
-      position: position
+  showPopup(title, text) {
+    let alert = this.alertCtrl.create({
+      title: title,
+      subTitle: text,
+      buttons: ['OK']
     });
 
-    toast.present(toast);
+    alert.present();
     this.loading.dismiss();
   }
 

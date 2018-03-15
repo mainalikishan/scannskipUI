@@ -10,7 +10,7 @@ import firebase from 'firebase';
 export class RegisterPage {
   loading: Loading;
   createSuccess = false;
-  registerCredentials = { name: '', email: '', phone: '', password: '' };
+  registerCredentials = { name: '', email: '', password: '', cpassword: '' };
 
   constructor(
     private nav: NavController,
@@ -20,41 +20,39 @@ export class RegisterPage {
   }
 
   public register() {
-    this.showLoading();
     var that = this;
-    this.fire.auth.createUserWithEmailAndPassword(this.registerCredentials.email, this.registerCredentials.password)
-      .then(function(user) {
-        // var user = this.fire.auth.currentUser;
-        console.log(user);
-        user.updateProfile({
-          displayName: that.registerCredentials.name
-        }).then(function() {
-          that.showPopup("Success", "Account created!");
+    if (this.validation()) {
+      this.showLoading();
+      this.fire.auth.createUserWithEmailAndPassword(this.registerCredentials.email, this.registerCredentials.password)
+        .then(function(user) {
+          // console.log(user);
+          user.updateProfile({
+            displayName: that.registerCredentials.name
+          }).then(function() {
+            that.showPopup("Success", "Account created!");
+          }).catch(function(error) {
+            alert(error);
+          });
         }).catch(function(error) {
-          alert(error);
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          that.showPopup("Whoops!", errorMessage);
+          that.loading.dismiss();
+          console.log(error);
         });
-        // that.showPopup("Success", "Account created.");
-      }).catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // ...
-        that.showPopup("Invalid!", errorMessage);
-        that.loading.dismiss();
-        console.log(error);
-      });
-    // this.auth.register(this.registerCredentials).subscribe(success => {
-    //   if (success) {
-    //     this.createSuccess = true;
-    //     this.showPopup("Success", "Account created.");
-    //   } else {
-    //     this.showPopup("Error", "Problem creating account.");
-    //   }
-    //   this.loading.dismiss();
-    // },
-    //   error => {
-    //     this.showPopup("Error", error);
-    //   });
+    }
+
+  }
+
+  validation() {
+    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.registerCredentials.email))) {
+      this.showPopup("Whoops!", "Doesn't look like a valid email. Please double check!");
+      return false;
+    } else if (this.registerCredentials.password !== this.registerCredentials.cpassword) {
+      this.showPopup("Whoops!", "Password you entered didn't match. Please double check!");
+      return false;
+    }
+    return true;
   }
 
   showLoading() {

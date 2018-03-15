@@ -30,10 +30,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var LoginPage = (function () {
-    function LoginPage(navCtrl, auth, toastCtrl, loadingCtrl, fire) {
+    function LoginPage(navCtrl, auth, alertCtrl, loadingCtrl, fire) {
         this.navCtrl = navCtrl;
         this.auth = auth;
-        this.toastCtrl = toastCtrl;
+        this.alertCtrl = alertCtrl;
         this.loadingCtrl = loadingCtrl;
         this.fire = fire;
         this.registerCredentials = { email: '', password: '' };
@@ -50,7 +50,7 @@ var LoginPage = (function () {
                         that.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_5__main_main__["a" /* MainPage */]);
                     }
                     else {
-                        that.showToast('bottom', "The username and password you entered did not match our records. Please double-check and try again.");
+                        that.showPopup('Whoos!', "The username and password you entered did not match our records. Please double-check and try again.");
                     }
                 });
                 console.log(result.user);
@@ -70,27 +70,36 @@ var LoginPage = (function () {
     };
     LoginPage.prototype.login = function () {
         var that = this;
-        this.showLoading();
-        this.fire.auth.signInWithEmailAndPassword(this.registerCredentials.email, this.registerCredentials.password)
-            .then(function (credentials) {
-            var _this = this;
-            console.log(credentials);
-            that.auth.login(credentials).subscribe(function (allowed) {
-                if (allowed) {
-                    that.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_5__main_main__["a" /* MainPage */]);
-                }
-                else {
-                    that.showToast('bottom', "The username and password you entered did not match our records. Please double-check and try again.");
-                }
-            }, function (error) {
-                _this.showError(error);
+        if (this.validation()) {
+            this.showLoading();
+            this.fire.auth.signInWithEmailAndPassword(this.registerCredentials.email, this.registerCredentials.password)
+                .then(function (credentials) {
+                var _this = this;
+                // console.log(credentials);
+                that.auth.login(credentials).subscribe(function (allowed) {
+                    if (allowed) {
+                        that.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_5__main_main__["a" /* MainPage */]);
+                    }
+                    else {
+                        that.showPopup('Whoos!', "The username and password you entered did not match our records. Please double-check and try again.");
+                    }
+                }, function (error) {
+                    _this.showError(error);
+                });
+            }).catch(function (error) {
+                // Handle Errors here.
+                var errorMessage = error.message;
+                // that.showError(errorMessage);
+                that.showPopup('Whoos!', 'The username and password you entered did not match our records. Please double-check and try again.');
             });
-        }).catch(function (error) {
-            // Handle Errors here.
-            var errorMessage = error.message;
-            // that.showError(errorMessage);
-            that.showToast('bottom', 'The username and password you entered did not match our records. Please double-check and try again.');
-        });
+        }
+    };
+    LoginPage.prototype.validation = function () {
+        if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.registerCredentials.email))) {
+            this.showPopup("Whoops!", "The username and password you entered did not match our records. Please double-check and try again.");
+            return false;
+        }
+        return true;
     };
     LoginPage.prototype.showLoading = function () {
         this.loading = this.loadingCtrl.create({
@@ -99,14 +108,13 @@ var LoginPage = (function () {
         });
         this.loading.present();
     };
-    LoginPage.prototype.showToast = function (position, message) {
-        var toast = this.toastCtrl.create({
-            message: message,
-            showCloseButton: true,
-            closeButtonText: 'OK',
-            position: position
+    LoginPage.prototype.showPopup = function (title, text) {
+        var alert = this.alertCtrl.create({
+            title: title,
+            subTitle: text,
+            buttons: ['OK']
         });
-        toast.present(toast);
+        alert.present();
         this.loading.dismiss();
     };
     LoginPage.prototype.loginWithFacebook = function () {
@@ -119,7 +127,7 @@ var LoginPage = (function () {
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_4__providers_auth_service_auth_service__["a" /* AuthServiceProvider */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* ToastController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */],
             __WEBPACK_IMPORTED_MODULE_2_angularfire2_auth__["a" /* AngularFireAuth */]])
     ], LoginPage);
@@ -248,44 +256,41 @@ var RegisterPage = (function () {
         this.loadingCtrl = loadingCtrl;
         this.fire = fire;
         this.createSuccess = false;
-        this.registerCredentials = { name: '', email: '', phone: '', password: '' };
+        this.registerCredentials = { name: '', email: '', password: '', cpassword: '' };
     }
     RegisterPage.prototype.register = function () {
-        this.showLoading();
         var that = this;
-        this.fire.auth.createUserWithEmailAndPassword(this.registerCredentials.email, this.registerCredentials.password)
-            .then(function (user) {
-            // var user = this.fire.auth.currentUser;
-            console.log(user);
-            user.updateProfile({
-                displayName: that.registerCredentials.name
-            }).then(function () {
-                that.showPopup("Success", "Account created!");
+        if (this.validation()) {
+            this.showLoading();
+            this.fire.auth.createUserWithEmailAndPassword(this.registerCredentials.email, this.registerCredentials.password)
+                .then(function (user) {
+                // console.log(user);
+                user.updateProfile({
+                    displayName: that.registerCredentials.name
+                }).then(function () {
+                    that.showPopup("Success", "Account created!");
+                }).catch(function (error) {
+                    alert(error);
+                });
             }).catch(function (error) {
-                alert(error);
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                that.showPopup("Whoops!", errorMessage);
+                that.loading.dismiss();
+                console.log(error);
             });
-            // that.showPopup("Success", "Account created.");
-        }).catch(function (error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
-            that.showPopup("Invalid!", errorMessage);
-            that.loading.dismiss();
-            console.log(error);
-        });
-        // this.auth.register(this.registerCredentials).subscribe(success => {
-        //   if (success) {
-        //     this.createSuccess = true;
-        //     this.showPopup("Success", "Account created.");
-        //   } else {
-        //     this.showPopup("Error", "Problem creating account.");
-        //   }
-        //   this.loading.dismiss();
-        // },
-        //   error => {
-        //     this.showPopup("Error", error);
-        //   });
+        }
+    };
+    RegisterPage.prototype.validation = function () {
+        if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.registerCredentials.email))) {
+            this.showPopup("Whoops!", "Doesn't look like a valid email. Please double check!");
+            return false;
+        }
+        else if (this.registerCredentials.password !== this.registerCredentials.cpassword) {
+            this.showPopup("Whoops!", "Password you entered didn't match. Please double check!");
+            return false;
+        }
+        return true;
     };
     RegisterPage.prototype.showLoading = function () {
         this.loading = this.loadingCtrl.create({
@@ -314,7 +319,7 @@ var RegisterPage = (function () {
     };
     RegisterPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-register',template:/*ion-inline-start:"/Users/mainalikishan/School/FINALSEM/CS595/Client/scannskipUI/src/pages/register/register.html"*/'<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>Register</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="login-content" padding>\n\n  <div class="logo-box">\n    <ion-row>\n      <ion-col></ion-col>\n      <ion-col width-67>\n        <img src="assets/imgs/logo.png" />\n      </ion-col>\n      <ion-col></ion-col>\n    </ion-row>\n    <!-- <h1 class="intro-title">{{ \'{\' }} Scan-N-Skip {{ \'}\' }}</h1> -->\n  </div>\n\n  <div class="login-box">\n\n    <form (ngSubmit)="register()" #registerForm="ngForm">\n      <ion-row>\n        <ion-col>\n          <ion-list inset>\n\n            <ion-item>\n              <ion-input type="text" placeholder="Name" name="name" [(ngModel)]="registerCredentials.name" required></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-input type="text" placeholder="Email" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>\n            </ion-item>\n\n            <!-- <ion-item>\n              <ion-input type="text" placeholder="Phone" name="phone" [(ngModel)]="registerCredentials.phone" required></ion-input>\n            </ion-item> -->\n\n            <ion-item>\n              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>\n            </ion-item>\n\n          </ion-list>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col class="signup-col">\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid" large>Register</button>\n        </ion-col>\n      </ion-row>\n\n    </form>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/Users/mainalikishan/School/FINALSEM/CS595/Client/scannskipUI/src/pages/register/register.html"*/,
+            selector: 'page-register',template:/*ion-inline-start:"/Users/mainalikishan/School/FINALSEM/CS595/Client/scannskipUI/src/pages/register/register.html"*/'<ion-header>\n  <ion-navbar color="primary">\n    <ion-title>Register</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="login-content" padding>\n\n  <div class="logo-box">\n    <ion-row>\n      <ion-col></ion-col>\n      <ion-col width-67>\n        <img src="assets/imgs/logo.png" />\n      </ion-col>\n      <ion-col></ion-col>\n    </ion-row>\n    <!-- <h1 class="intro-title">{{ \'{\' }} Scan-N-Skip {{ \'}\' }}</h1> -->\n  </div>\n\n  <div class="login-box">\n\n    <form (ngSubmit)="register()" #registerForm="ngForm">\n      <ion-row>\n        <ion-col>\n          <ion-list inset>\n\n            <ion-item>\n              <ion-input type="text" placeholder="Name" name="name" [(ngModel)]="registerCredentials.name" required></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-input type="text" placeholder="Email" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-input type="password" placeholder="Confirm Password" name="cpassword" [(ngModel)]="registerCredentials.cpassword" required></ion-input>\n            </ion-item>\n\n          </ion-list>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col class="signup-col">\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid" large>Register</button>\n        </ion-col>\n      </ion-row>\n\n    </form>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/Users/mainalikishan/School/FINALSEM/CS595/Client/scannskipUI/src/pages/register/register.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
