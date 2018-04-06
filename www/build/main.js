@@ -211,11 +211,11 @@ webpackEmptyAsyncContext.id = 161;
 
 var map = {
 	"../pages/cart/cart.module": [
-		479,
+		480,
 		1
 	],
 	"../pages/main/main.module": [
-		480,
+		479,
 		0
 	]
 };
@@ -567,8 +567,8 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_3__angular_common_http__["a" /* HttpClientModule */],
                 __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* MyApp */], {}, {
                     links: [
-                        { loadChildren: '../pages/cart/cart.module#CartPageModule', name: 'CartPage', segment: 'cart', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/main/main.module#MainPageModule', name: 'MainPage', segment: 'main', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/main/main.module#MainPageModule', name: 'MainPage', segment: 'main', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/cart/cart.module#CartPageModule', name: 'CartPage', segment: 'cart', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_15__ionic_storage__["a" /* IonicStorageModule */].forRoot(),
@@ -779,7 +779,7 @@ var MainPage = (function () {
     };
     MainPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-main',template:/*ion-inline-start:"/Users/mainalikishan/School/FINALSEM/CS595/Client/scannskipUI/src/pages/main/main.html"*/'<ion-header>\n  <ion-navbar *navbar secondary>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Welcome, {{username}}!</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <!-- <img src="assets/imgs/scan-1.jpg" class="slide-image"/> -->\n  <ion-card class="animate-in-secondary">\n  <img src="assets/imgs/scan-1.jpg"/>\n  <ion-item class="animate-in-primary">\n    <ion-icon name="ios-checkmark-circle-outline" item-start large></ion-icon>\n    <h2>Save Time</h2>\n    <p>Scan your item yourself</p>\n  </ion-item>\n\n  <ion-item class="animate-in-primary">\n    <ion-icon name="ios-checkmark-circle-outline" item-left large ></ion-icon>\n    <h2>Skip the Line</h2>\n    <p>No need to wait for cahier</p>\n  </ion-item>\n\n  <ion-item class="animate-in-primary">\n    <ion-icon name="ios-checkmark-circle-outline" item-left large ></ion-icon>\n    <h2>Go cashless</h2>\n    <p>Pay online - leave your cash and card home :)</p>\n  </ion-item>\n</ion-card>\n</ion-content>\n\n<ion-footer>\n  <button ion-button full (click)="scanBarcode()" large>\n     Scan Barcode\n  </button>\n</ion-footer>\n'/*ion-inline-end:"/Users/mainalikishan/School/FINALSEM/CS595/Client/scannskipUI/src/pages/main/main.html"*/,
+            selector: 'page-main',template:/*ion-inline-start:"/Users/mainalikishan/School/FINALSEM/CS595/Client/scannskipUI/src/pages/main/main.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Welcome, {{username}}!</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <!-- <img src="assets/imgs/scan-1.jpg" class="slide-image"/> -->\n  <ion-card class="animate-in-secondary">\n  <img src="assets/imgs/scan-1.jpg"/>\n  <ion-item class="animate-in-primary">\n    <ion-icon name="ios-checkmark-circle-outline" item-start large></ion-icon>\n    <h2>Save Time</h2>\n    <p>Scan your item yourself</p>\n  </ion-item>\n\n  <ion-item class="animate-in-primary">\n    <ion-icon name="ios-checkmark-circle-outline" item-left large ></ion-icon>\n    <h2>Skip the Line</h2>\n    <p>No need to wait for cahier</p>\n  </ion-item>\n\n  <ion-item class="animate-in-primary">\n    <ion-icon name="ios-checkmark-circle-outline" item-left large ></ion-icon>\n    <h2>Go cashless</h2>\n    <p>Pay online - leave your cash and card home :)</p>\n  </ion-item>\n</ion-card>\n</ion-content>\n\n<ion-footer>\n  <button ion-button full (click)="scanBarcode()" large>\n     Scan Barcode\n  </button>\n</ion-footer>\n'/*ion-inline-end:"/Users/mainalikishan/School/FINALSEM/CS595/Client/scannskipUI/src/pages/main/main.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */],
