@@ -1,17 +1,9 @@
 // import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import { Storage } from '@ionic/storage';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-export class User {
-  name: string;
-  email: string;
-
-  constructor(name: string, email: string) {
-    this.name = name;
-    this.email = email;
-  }
-}
 /*
   Generated class for the AuthServiceProvider provider.
 
@@ -21,43 +13,21 @@ export class User {
 @Injectable()
 export class AuthServiceProvider {
 
-  currentUser: User;
+  constructor(private storage: Storage) { }
 
-  public login(credentials) {
-      // if (credentials.email === null || credentials.password === null) {
-    if (credentials.email === null) {
-      return Observable.throw("Please insert credentials");
-    } else {
-      return Observable.create(observer => {
-        // At this point make a request to your backend to make a real check!
-        // credentials.password === "pass" &&
-        let access = (credentials.email === credentials.email);
-        this.currentUser = new User(credentials.displayName, credentials.email);
-        observer.next(access);
-        observer.complete();
-      });
-    }
-  }
-
-  public register(credentials) {
-    if (credentials.email === null || credentials.password === null) {
-      return Observable.throw("Please insert credentials");
-    } else {
-      // At this point store the credentials to your backend!
-      return Observable.create(observer => {
-        observer.next(true);
-        observer.complete();
-      });
-    }
-  }
-
-  public getUserInfo() : User {
-    return this.currentUser;
+  public getUserInfo() {
+    return this.storage.get('user').then(user => {
+      if (user) {
+        return JSON.parse(user);
+      }
+      return false;
+    });
   }
 
   public logout() {
     return Observable.create(observer => {
-      this.currentUser = null;
+      this.storage.set('isLoggedIn', false);
+      this.storage.set('user', '');
       observer.next(true);
       observer.complete();
     });

@@ -2,9 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Storage } from '@ionic/storage';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 
-// import { HomePage } from '../pages/home/home';
+import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { CartPage } from '../pages/cart/cart';
 import { MainPage } from '../pages/main/main';
@@ -15,7 +16,7 @@ import { MainPage } from '../pages/main/main';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = LoginPage;
+  public rootPage;
 
   pages: Array<{title: string, component: any}>;
 
@@ -23,6 +24,7 @@ export class MyApp {
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
+    private storage: Storage,
     private auth: AuthServiceProvider) {
     this.initializeApp();
 
@@ -41,6 +43,9 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.storage.get('isLoggedIn').then(isLoggedIn => {
+          this.rootPage = isLoggedIn ? MainPage : HomePage;
+      });
     });
   }
 
@@ -49,6 +54,7 @@ export class MyApp {
     // we wouldn't want the back button to show in this scenario
     if(page.component) {
         this.nav.setRoot(page.component);
+
     } else {
         // logout logic
         this.auth.logout().subscribe(succ => {

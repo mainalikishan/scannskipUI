@@ -4,18 +4,68 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Cart</ion-title>
+    <ion-buttons end>
+      <button id="cart-btn" ion-button>
+        <ion-icon id="cart-icon" name="md-basket"></ion-icon>
+        <ion-badge id="cart-badge" color="secondary">{{cartTotalQty()}}</ion-badge>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-list>
-    <ion-item>
-      <ion-thumbnail item-start>
-        <img src="img/thumbnail-totoro.png">
-      </ion-thumbnail>
-      <h2>My Neighbor Totoro</h2>
-      <p>Hayao Miyazaki • 1988</p>
-      <button ion-button clear item-end>View</button>
-    </ion-item>
-  </ion-list>
+  <div *ngIf="cartTotalQty() > 0">
+    <button ion-button block icon-left large>
+      <ion-icon name="md-checkmark-circle-outline"></ion-icon>
+      CHECKOUT
+    </button>
+
+    <ion-card *ngFor="let ci of cartItems" class="item-remove-animate">
+
+      <img src="{{ci.largeImage}}">
+
+      <ion-item>
+        <h2 class="ellipsis">{{ci.name}}</h2>
+      </ion-item>
+
+      <ion-item>
+        <ion-badge item-left>{{ ci.price | currency: '$' }}</ion-badge>
+        <!-- <span item-left></span> -->
+        <span item-left>x {{ci.qty}}</span>
+        <!-- <button ion-button icon-left clear item-end>
+          <ion-icon name="ios-trash-outline"></ion-icon>
+          Delete
+        </button> -->
+        <button ion-button color="danger" clear icon-only item-end (click)="deleteItemFromCart(ci.upc)">
+          <ion-icon name='md-trash' is-active="false"></ion-icon>
+        </button>
+      </ion-item>
+
+    </ion-card>
+
+    <button ion-button block icon-left large (click)="scanBarcode()">
+      <ion-icon name="ios-barcode-outline"></ion-icon>
+      Contine Shopping
+    </button>
+
+  </div>
+  <div *ngIf="cartTotalQty() == 0">
+    <ion-card class="animate-in-secondary">
+      <img src="assets/imgs/empty_cart.png" />
+      <ion-card-content>
+        <button ion-button block icon-left large (click)="scanBarcode()">
+          <ion-icon name="ios-barcode-outline"></ion-icon>
+          Start Shopping
+        </button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>
+      <ion-icon name="md-cart"></ion-icon> TOTAL: {{ cartTotalAmt() | currency: '$' }}</ion-title>
+  </ion-toolbar>
+</ion-footer>

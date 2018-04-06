@@ -1,8 +1,4 @@
 page-login {
-  /* Remove the stupid outer glow in Webkit */
-  input:focus {
-    outline: 0 !important;
-  }
 
   .login-content {
     .scroll-content {
@@ -37,7 +33,6 @@ page-login {
 
     ion-item {
       background: #F4F2F7;
-      padding: 6px 10px !important;
       font-size: 1.2em;
       margin-bottom: 10px;
       border: 1px solid #ffffff;

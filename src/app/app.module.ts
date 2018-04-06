@@ -15,11 +15,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Camera } from '@ionic-native/camera';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { HTTP } from '@ionic-native/http';
+import { IonicStorageModule } from '@ionic/storage';
 
 // for social login
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+import { ServerProvider } from '../providers/server/server';
 
 var config = {
   apiKey: "AIzaSyBN4NdvyqX3YiKP4KiLAfk3wSJ0PRiHzkA",
@@ -43,6 +45,7 @@ var config = {
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireModule.initializeApp(config)
   ],
@@ -63,7 +66,8 @@ var config = {
     Camera,
     BarcodeScanner,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    AuthServiceProvider
+    AuthServiceProvider,
+    ServerProvider
   ]
 })
 export class AppModule { }

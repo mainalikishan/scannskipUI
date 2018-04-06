@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController, LoadingController, Loading } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
-import firebase from 'firebase';
 
 @Component({
   selector: 'page-register',
@@ -29,12 +28,13 @@ export class RegisterPage {
           user.updateProfile({
             displayName: that.registerCredentials.name
           }).then(function() {
+            that.createSuccess = true;
             that.showPopup("Success", "Account created!");
           }).catch(function(error) {
             alert(error);
           });
         }).catch(function(error) {
-          var errorCode = error.code;
+          // var errorCode = error.code;
           var errorMessage = error.message;
           that.showPopup("Whoops!", errorMessage);
           that.loading.dismiss();

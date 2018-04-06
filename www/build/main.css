@@ -25678,6 +25678,79 @@ ion-navbar.toolbar {
   min-height: calc(46px + env(safe-area-inset-bottom));
 }
 
+input:focus {
+  outline: 0 !important;
+}
+
+.platform-ios ion-item {
+  padding: 6px 10px !important;
+}
+
+@-webkit-keyframes animateInPrimary {
+  0% {
+    -webkit-transform: translate3d(-100%, 0, 0);
+  }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+}
+
+@-webkit-keyframes animateInSecondary {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-in-primary {
+  -webkit-animation: animateInPrimary;
+  animation: animateInPrimary;
+  -webkit-animation-duration: 750ms;
+  animation-duraton: 750ms;
+}
+
+.animate-in-secondary {
+  -webkit-animation: animateInSecondary ease-in 1;
+  animation: animateInSecondary ease-in 1;
+  -webkit-animation-duration: 750ms;
+  animation-duraton: 750ms;
+}
+
+page-cart .ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+page-cart h2 {
+  font-weight: 400 !important;
+  text-transform: capitalize;
+  font-size: 18px !important;
+  margin: 0;
+}
+
+page-cart #cart-btn {
+  position: relative;
+}
+
+page-cart #cart-icon {
+  position: absolute;
+  top: 2px;
+  right: 28px;
+  font-size: 1.6em;
+}
+
+page-cart #cart-badge {
+  position: absolute;
+  top: -5px;
+  right: 10px;
+}
+
 page-home .toolbar-background {
   background: #fff;
   border-color: transparent;
@@ -25698,7 +25771,7 @@ page-home .slide-title {
 page-home .slide-image {
   max-height: 50%;
   max-width: 60%;
-  margin: 18px 0;
+  margin: 40px 0 20px 0;
 }
 
 page-home b {
@@ -25714,14 +25787,6 @@ page-home p {
 
 page-home p b {
   color: #000000;
-}
-
-page-login {
-  /* Remove the stupid outer glow in Webkit */
-}
-
-page-login input:focus {
-  outline: 0 !important;
 }
 
 page-login .login-content .scroll-content {
@@ -25758,7 +25823,6 @@ page-login .login-content ion-row {
 
 page-login .login-content ion-item {
   background: #F4F2F7;
-  padding: 6px 10px !important;
   font-size: 1.2em;
   margin-bottom: 10px;
   border: 1px solid #ffffff;

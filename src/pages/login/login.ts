@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
+import { Storage } from '@ionic/storage';
 import { NavController, AlertController, LoadingController, Loading } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase';
-import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 
 import { MainPage } from '../main/main';
 import { RegisterPage } from '../register/register';
@@ -15,8 +15,8 @@ export class LoginPage {
   loading: Loading;
   registerCredentials = { email: '', password: '' };
   constructor(
+    private storage: Storage,
     public navCtrl: NavController,
-    private auth: AuthServiceProvider,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     private fire: AngularFireAuth) {
@@ -26,27 +26,25 @@ export class LoginPage {
       if (result.credential) {
         that.showLoading();
         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-        var token = result.credential.accessToken;
+        // var token = result.credential.accessToken;
         // ...
         // The signed-in user info.
-        that.auth.login(result.user).subscribe(allowed => {
-          if (allowed) {
-            that.navCtrl.setRoot(MainPage);
-          } else {
-            that.showPopup('Whoos!', "The username and password you entered did not match our records. Please double-check and try again.");
-          }
-        });
-        console.log(result.user);
+        var credentials = result.user;
+        that.storage.set('isLoggedIn', true);
+        that.storage.set('user',
+          '{ "name":"' + credentials.displayName + '", "email":"' + credentials.email + '", "uid":"' + credentials.uid + '" }');
+        that.navCtrl.setRoot(MainPage);
+        // console.log(result.user);
       }
 
     }).catch(function(error) {
       // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
+      // var errorCode = error.code;
+      // var errorMessage = error.message;
+      // // The email of the user's account used.
+      // var email = error.email;
+      // // The firebase.auth.AuthCredential type that was used.
+      // var credential = error.credential;
     });
 
   }
@@ -61,22 +59,16 @@ export class LoginPage {
       this.showLoading();
       this.fire.auth.signInWithEmailAndPassword(this.registerCredentials.email, this.registerCredentials.password)
         .then(function(credentials) {
-          // console.log(credentials);
-          that.auth.login(credentials).subscribe(allowed => {
-            if (allowed) {
-              that.navCtrl.setRoot(MainPage);
-            } else {
-              that.showPopup('Whoos!', "The username and password you entered did not match our records. Please double-check and try again.");
-            }
-          },
-            error => {
-              this.showError(error);
-            });
+          console.log(credentials);
+          that.storage.set('isLoggedIn', true);
+          that.storage.set('myCart', JSON.stringify({ items: [] })); // cart initilazation
+          that.storage.set('user',
+            '{ "name":"' + credentials.displayName + '", "email":"' + credentials.email + '", "uid":"' + credentials.uid + '" }');
+          that.navCtrl.setRoot(MainPage);
         }).catch(function(error) {
           // Handle Errors here.
-          var errorMessage = error.message;
           // that.showError(errorMessage);
-          that.showPopup('Whoos!', 'The username and password you entered did not match our records. Please double-check and try again.');
+          that.showPopup('Whoos!', error.message);
         });
     }
   }
