@@ -15,12 +15,12 @@
 
 <ion-content padding>
   <div *ngIf="cartTotalQty() > 0">
-    <button ion-button block icon-left large>
+    <button *ngIf="cartTotalQty() < 10" ion-button block icon-left large>
       <ion-icon name="md-checkmark-circle-outline"></ion-icon>
       CHECKOUT
     </button>
 
-    <ion-card *ngFor="let ci of cartItems" class="item-remove-animate">
+    <ion-card *ngFor="let ci of cartItems.slice().reverse()" class="item-remove-animate">
 
       <img src="{{ci.largeImage}}">
 
@@ -43,10 +43,7 @@
 
     </ion-card>
 
-    <button ion-button block icon-left large (click)="scanBarcode()">
-      <ion-icon name="ios-barcode-outline"></ion-icon>
-      Contine Shopping
-    </button>
+
 
   </div>
   <div *ngIf="cartTotalQty() == 0">
@@ -64,6 +61,14 @@
 </ion-content>
 
 <ion-footer>
+  <button *ngIf="cartTotalQty() > 0 && cartTotalQty() < 10" ion-button full icon-left large (click)="scanBarcode()">
+    <ion-icon name="md-barcode"></ion-icon>
+    Contine Shopping
+  </button>
+  <button *ngIf="cartTotalQty() == 10" ion-button full icon-left large>
+    <ion-icon name="md-checkmark-circle-outline"></ion-icon>
+    CHECKOUT
+  </button>
   <ion-toolbar>
     <ion-title>
       <ion-icon name="md-cart"></ion-icon> TOTAL: {{ cartTotalAmt() | currency: '$' }}</ion-title>

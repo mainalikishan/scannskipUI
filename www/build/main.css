@@ -25734,6 +25734,11 @@ page-cart h2 {
   margin: 0;
 }
 
+page-cart ion-footer button, page-cart ion-footer ion-toolbar {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 page-cart #cart-btn {
   position: relative;
 }
@@ -25858,6 +25863,14 @@ page-login .login-content .btn-facebook {
 
 page-main .button {
   margin: 0px !important;
+}
+
+page-main h2 {
+  text-transform: uppercase;
+}
+
+page-main p {
+  text-transform: capitalize;
 }
 
 page-register {

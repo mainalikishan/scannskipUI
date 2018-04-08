@@ -12,6 +12,11 @@ page-cart {
       margin: 0;
   }
 
+  ion-footer button, ion-footer ion-toolbar {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
   #cart-btn {
      position: relative;
   }

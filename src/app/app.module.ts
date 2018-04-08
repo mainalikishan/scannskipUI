@@ -20,8 +20,10 @@ import { IonicStorageModule } from '@ionic/storage';
 // for social login
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { ServerProvider } from '../providers/server/server';
+import { UtilityServiceProvider } from '../providers/utility-service/utility-service';
 
 var config = {
   apiKey: "AIzaSyBN4NdvyqX3YiKP4KiLAfk3wSJ0PRiHzkA",
@@ -67,7 +69,8 @@ var config = {
     BarcodeScanner,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthServiceProvider,
-    ServerProvider
+    ServerProvider,
+    UtilityServiceProvider
   ]
 })
 export class AppModule { }

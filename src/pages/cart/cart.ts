@@ -1,8 +1,8 @@
 import { Component, NgZone } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, LoadingController, Loading } from 'ionic-angular';
 
-import { MainPage } from '../main/main';
+import { UtilityServiceProvider } from '../../providers/utility-service/utility-service';
 
 /**
  * Generated class for the CartPage page.
@@ -17,6 +17,7 @@ import { MainPage } from '../main/main';
   templateUrl: 'cart.html',
 })
 export class CartPage {
+  loading: Loading;
   private item;
   public cartItems: any ;
   public cartTotalAmt;
@@ -29,7 +30,10 @@ export class CartPage {
     public navParams: NavParams,
     private zone: NgZone,
     private alertCtrl: AlertController,
-    private toastCtrl: ToastController) {
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
+    private utility: UtilityServiceProvider
+    ) {
       this.item = navParams.get("item");
       // console.log(this.item);
       this.cartItems = [];
@@ -37,58 +41,74 @@ export class CartPage {
       this.cartTotalQty = function() { return 0; }
       if(typeof this.item == "undefined") {
         this.findAll().then(objCart => {
-          console.log("Items in db:");
-          console.log(objCart.items);
+          // console.log("Items in db:");
+          // console.log(objCart.items);
           this.runZone(objCart.items);
         });
       } else {
-        console.log("Add to Card:");
+        // console.log("Add to Card:");
         this.addToCart();
       }
   }
 
   public addToCart() {
-    if(this.cartTotalQty() < 10) {
-      this.findAll().then(objCart => {
+    this.findAll().then(objCart => {
+      var totalQtyInCart = function() {
+          return objCart.items.reduce(function(acc, item) {
+              return acc + item.qty;
+          }, 0);
+      }
+      if(totalQtyInCart() < 10) {
         var itemExist = this.checkIfExistingValue(objCart.items, "upc", this.item.upc);
         if(!itemExist) {
-          console.log("Item Not Exist:");
+          // console.log("Item Not Exist:");
           this.item.qty = 1;
           objCart.items.push( this.item );
         } else {
-          console.log("Item Exist:");
+          // console.log("Item Exist:");
           var findItem = this.findItem(objCart.items, "upc", this.item.upc);
-          findItem.qty  += parseInt(findItem.qty);
+          findItem.qty  = parseInt(findItem.qty) + 1;
           var deleteItem = this.deleteItem(objCart.items, this.item.upc);
           if(deleteItem) {
             this.item.qty = findItem.qty;
             objCart.items.push( this.item );
           }
         }
-        console.log("Adding to db:");
-        console.log(objCart.items);
+        // console.log("Adding to db:");
+        // console.log(objCart.items);
         this.storage.set( this.cartName, this._toJSONString( objCart ) );
-        this.runZone(objCart.items);
-      });
-    } else {
-      console.log("can't add more than 10 items");
-    }
+      } else {
+        // console.log("can't add more than 10 items");
+        let toast = this.toastCtrl.create({
+          message: 'You are not supposed to add more than 10 quantity of items!',
+          showCloseButton: true,
+          closeButtonText: 'OK'
+        });
+
+        toast.onDidDismiss(() => {
+          // console.log('Dismissed toast');
+        });
+
+        toast.present();
+      }
+      this.runZone(objCart.items);
+    });
   }
 
   public deleteItemFromCart(upcCode) {
-    console.log("???:");
-    console.log(this.cartItems);
-    console.log("???:");
-    console.log(upcCode);
+    // console.log("???:");
+    // console.log(this.cartItems);
+    // console.log("???:");
+    // console.log(upcCode);
     let alert = this.alertCtrl.create({
       title: 'Confirm Delete!',
-      message: 'Are to sure to remove this item from your cart?',
+      message: 'Are you sure to remove this item from cart?',
       buttons: [
         {
           text: 'Cancel',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
+            // console.log('Cancel clicked');
           }
         },
         {
@@ -97,8 +117,8 @@ export class CartPage {
             var deleteItem = this.deleteItem(this.cartItems, upcCode);
             if(deleteItem) {
               this.findAll().then(objCart => {
-                console.log("Removing item from cart:");
-                console.log(this.cartItems);
+                // console.log("Removing item from cart:");
+                // console.log(this.cartItems);
                 objCart.items = this.cartItems;
                 this.storage.set( this.cartName, this._toJSONString( objCart ) );
                 this.runZone(objCart.items);
@@ -108,7 +128,7 @@ export class CartPage {
                 });
 
                 toast.onDidDismiss(() => {
-                  console.log('Dismissed toast');
+                  // console.log('Dismissed toast');
                 });
 
                 toast.present();
@@ -132,10 +152,38 @@ export class CartPage {
         }
         this.cartTotalQty = function() {
             return items.reduce(function(acc, item) {
-                return acc + (item.qty);
+                return acc + item.qty;
             }, 0);
         }
     });
+  }
+
+  public scanBarcode() {
+    this.showLoading();
+    this.utility.scanBarcode().then(data => {
+      if(data !== 1) {
+        if(data && (data.length > 0)) {
+          this.item = JSON.parse(data);
+          this.addToCart();
+        } else {
+          let alert = this.alertCtrl.create({
+            title: "NOT FOUND",
+            subTitle: "Item not in inventory",
+            buttons: ['OK']
+          });
+          alert.present(prompt);
+        }
+      }
+      this.loading.dismiss();
+    });
+  }
+
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+      content: 'Please wait...',
+      dismissOnPageChange: true
+    });
+    this.loading.present();
   }
 
   checkIfExistingValue(obj, key, value) {
@@ -159,12 +207,6 @@ export class CartPage {
     if(item.upc === value) // Case sensitive, will only remove first instance
       return obj.splice(obj.indexOf(item),1);
     })
-  }
-
-  scanBarcode() {
-    this.navCtrl.push(MainPage, {
-      scan: true
-    });
   }
 
   /* Converts a JSON string to a JavaScript object
