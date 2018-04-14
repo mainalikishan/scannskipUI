@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController, Loading } from 'ionic-angular';
+import { IonicPage, MenuController, NavController, NavParams, AlertController, LoadingController, Loading } from 'ionic-angular';
 
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { UtilityServiceProvider } from '../../providers/utility-service/utility-service';
@@ -17,24 +17,26 @@ export class MainPage {
   username = '';
 
   constructor(
+    private menuCtrl: MenuController,
     public navCtrl: NavController,
     public navParams: NavParams,
     private auth: AuthServiceProvider,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     private utility: UtilityServiceProvider) {
-    this.auth.getUserInfo().then(user => {
-      if (user) {
-        this.username = user.name;
-      }
-    });
+      this.menuCtrl = menuCtrl;
+      this.auth.getUserInfo().then(user => {
+        if (user) {
+          this.username = user.name;
+        }
+      });
 
   }
 
   public scanBarcode() {
     this.showLoading();
     this.utility.scanBarcode().then(data => {
-      if(data !== 1) {
+      if(data != 1) {
         if(data && (data.length > 0)) {
           this.navCtrl.push(CartPage, {
             item: JSON.parse(data)
@@ -58,6 +60,11 @@ export class MainPage {
       dismissOnPageChange: true
     });
     this.loading.present();
+  }
+
+  ionViewWillEnter() {
+    this.menuCtrl.enable(true);
+    this.menuCtrl.swipeEnable(true)
   }
 
 }

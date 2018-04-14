@@ -1,0 +1,28 @@
+<!--
+  Generated template for the CompleteOrderPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Purchase Completed!</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+    <ngx-qrcode [qrc-value]="qrData"></ngx-qrcode>
+    <ion-card-content class="text-center">
+      <p>Show this QR CODE to Cashir/Clerk before leaving the store to complete your transaction.</p>
+      <h2>Purchase Success!</h2>
+      <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

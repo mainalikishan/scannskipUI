@@ -15,7 +15,7 @@
 
 <ion-content padding>
   <div *ngIf="cartTotalQty() > 0">
-    <button *ngIf="cartTotalQty() < 10" ion-button block icon-left large>
+    <button *ngIf="cartTotalQty() < 10" (click)="checkOut()" ion-button block icon-left large>
       <ion-icon name="md-checkmark-circle-outline"></ion-icon>
       CHECKOUT
     </button>
@@ -62,7 +62,7 @@
 
 <ion-footer>
   <button *ngIf="cartTotalQty() > 0 && cartTotalQty() < 10" ion-button full icon-left large (click)="scanBarcode()">
-    <ion-icon name="md-barcode"></ion-icon>
+    <!-- <ion-icon name="md-barcode"></ion-icon> -->
     Contine Shopping
   </button>
   <button *ngIf="cartTotalQty() == 10" ion-button full icon-left large>

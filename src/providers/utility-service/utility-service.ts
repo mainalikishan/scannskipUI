@@ -22,7 +22,7 @@ export class UtilityServiceProvider {
           showTorchButton : true,
           disableSuccessBeep: true
       }).then((barcodeData) => {
-      if(barcodeData.cancelled === 0) {
+      if(!barcodeData.cancelled) {
         return this.server.getProductInfo(barcodeData.text).then(data => {
           return data;
         });
@@ -33,6 +33,44 @@ export class UtilityServiceProvider {
       alert("This functionality only works in real device!");
       return false;
     });
+  }
+
+  public scanQrcode() {
+    return this.barcodeScanner.scan({
+          showTorchButton : true,
+          disableSuccessBeep: true
+      }).then((barcodeData) => {
+      if(!barcodeData.cancelled) {
+        return this.server.getOrderDetailsByQID(barcodeData.text).then(data => {
+          return data;
+        });
+      } else {
+        return barcodeData.cancelled;
+      }
+    }, (err) => {
+      alert("This functionality only works in real device!");
+      return false;
+    });
+  }
+
+  /* Converts a JSON string to a JavaScript object
+   * @param str String the JSON string
+   * @returns obj Object the JavaScript object
+   */
+
+  _toJSONObject ( str ) {
+      var obj = JSON.parse( str );
+      return obj;
+  }
+
+  /* Converts a JavaScript object to a JSON string
+   * @param obj Object the JavaScript object
+   * @returns str String the JSON string
+   */
+
+  _toJSONString ( obj ) {
+      var str = JSON.stringify( obj );
+      return str;
   }
 
 }

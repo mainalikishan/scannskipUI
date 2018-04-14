@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { NavController, AlertController, LoadingController, Loading } from 'ionic-angular';
+import { NavController, MenuController, AlertController, LoadingController, Loading } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import firebase from 'firebase';
 
 import { MainPage } from '../main/main';
 import { RegisterPage } from '../register/register';
+import { ServerProvider } from '../../providers/server/server';
+
 
 @Component({
   selector: 'page-login',
@@ -17,10 +19,13 @@ export class LoginPage {
   constructor(
     private storage: Storage,
     public navCtrl: NavController,
+    private menuCtrl: MenuController,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
-    private fire: AngularFireAuth) {
+    private fire: AngularFireAuth,
+    private server: ServerProvider) {
     var that = this;
+    this.menuCtrl = menuCtrl;
     this.fire.auth.getRedirectResult().then(function(result) {
 
       if (result.credential) {
@@ -31,8 +36,15 @@ export class LoginPage {
         // The signed-in user info.
         var credentials = result.user;
         that.storage.set('isLoggedIn', true);
+        that.storage.set('myCart', JSON.stringify({ items: [] })); // cart initilazation
+        that.storage.set('isStoreClerk', false);
+        if(credentials.email === 'mainalikishan@hotmail.com') {
+          that.storage.set('isStoreClerk', true);
+        }
         that.storage.set('user',
           '{ "name":"' + credentials.displayName + '", "email":"' + credentials.email + '", "uid":"' + credentials.uid + '" }');
+
+        that.server.sendUserInfo(credentials);
         that.navCtrl.setRoot(MainPage);
         // console.log(result.user);
       }
@@ -62,8 +74,13 @@ export class LoginPage {
           console.log(credentials);
           that.storage.set('isLoggedIn', true);
           that.storage.set('myCart', JSON.stringify({ items: [] })); // cart initilazation
+          that.storage.set('isStoreClerk', false);
+          if(credentials.email === 'mainalikishan@hotmail.com') {
+            that.storage.set('isStoreClerk', true);
+          }
           that.storage.set('user',
             '{ "name":"' + credentials.displayName + '", "email":"' + credentials.email + '", "uid":"' + credentials.uid + '" }');
+          that.server.sendUserInfo(credentials);
           that.navCtrl.setRoot(MainPage);
         }).catch(function(error) {
           // Handle Errors here.
@@ -103,6 +120,11 @@ export class LoginPage {
   loginWithFacebook() {
     this.showLoading();
     this.fire.auth.signInWithRedirect(new firebase.auth.FacebookAuthProvider());
+  }
+
+  ionViewWillEnter() {
+    this.menuCtrl.enable(false);
+    this.menuCtrl.swipeEnable(false)
   }
 
 }

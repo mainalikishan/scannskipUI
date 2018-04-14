@@ -15,7 +15,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap://ready https://ssl.gstatic.com file://* ws://* wss://*; img-src * data:; font-src * data:; script-src * https://*.google-analytics.com https://*.googleapis.com https://*.firebaseio.com 'unsafe-eval' 'unsafe-inline';">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap://ready https://ssl.gstatic.com file://* ws://* wss://*; img-src * data:; font-src * data:; script-src * https://*.google-analytics.com https://*.googleapis.com https://*.firebaseio.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline';">
 
   <!-- cordova.js required for cordova apps (remove if not needed) -->
   <script src="cordova.js"></script>
@@ -28,7 +28,6 @@
         .catch(err => console.error('Error', err));
     }
   </script>-->
-
   <link href="build/main.css" rel="stylesheet">
 
 </head>
@@ -46,6 +45,6 @@
 
   <!-- The main bundle js is generated during the build process -->
   <script src="build/main.js"></script>
-
+  <script src="assets/card.js"></script>
 </body>
 </html>

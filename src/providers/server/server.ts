@@ -23,39 +23,63 @@ export class ServerProvider {
       .then(data => {
         console.log(data);
         return data.data;
-        // console.log(data.status);
-        // console.log(data.data);
-        // console.log(data.data); // data received by server
-        // // console.log(data.headers);
-        // var jData = JSON.parse(data.data);
-        // if(jData.items.length>0) {
-        //   let alert = this.alertCtrl.create({
-        //     title: "Product Name: " + jData.items[0].title,
-        //     subTitle: "UPC CODE: " + barcodeData.text,
-        //     buttons: ['OK']
-        //   });
-        //   alert.present(prompt);
-        // } else {
-        //   let alert = this.alertCtrl.create({
-        //     title: "NOT FOUND",
-        //     subTitle: "Item not in inventory",
-        //     buttons: ['OK']
-        //   });
-        //   alert.present(prompt);
-        // }
-        // this.loading.dismiss();
 
       })
       .catch(error => {
         return error;
-        // var jData = JSON.parse(error.error);
-        // let alert = this.alertCtrl.create({
-        //   title: "NOT FOUND",
-        //   subTitle: error.error,
-        //   buttons: ['OK']
-        // });
-        // alert.present(prompt);
-        // this.loading.dismiss();
+      });
+  }
+
+  public sendUserInfo(user) {
+    console.log("sending user info to server:");
+    let data = {
+      'uid': user.uid,
+      'email': user.email,
+      'name': user.name
+    };
+    let headers = { 'Content-Type': 'application/json' };
+    console.log(data);
+    this.http.setDataSerializer('json');
+    this.http.post(this.apiUrl + '/user/signin', data, headers)
+      .then((data) => {
+        console.log("Yeppi:");
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log("ERROR:");
+        console.log(error);
+      });
+  }
+
+  public makeStripePayment(token, amount, user, cart) {
+    console.log("sending card info to server:");
+    let data = {
+      'token': token,
+      'amount': amount,
+      'user': JSON.parse( user ),
+      'myCart': JSON.parse( cart )
+    };
+    let headers = { 'Content-Type': 'application/json' };
+    console.log(data);
+    this.http.setDataSerializer('json');
+    return this.http.post(this.apiUrl + '/user/transaction', data, headers)
+      .then((data) => {
+        return data.data;
+      })
+      .catch((error) => {
+        return error;
+      });
+  }
+
+  public getOrderDetailsByQID(qid) {
+    return this.http.get(this.apiUrl + '/user/order?id=' + qid + '', {}, {})
+      .then(data => {
+        console.log(data);
+        return data.data;
+
+      })
+      .catch(error => {
+        return error;
       });
   }
 }

@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Order Details</ion-title>
+    <ion-buttons end>
+      <button id="cart-btn" ion-button>
+        <ion-icon id="cart-icon" name="md-basket"></ion-icon>
+        <ion-badge id="cart-badge" color="secondary">{{cartTotalQty()}}</ion-badge>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div *ngIf="cartTotalQty() > 0">
+
+    <ion-card *ngFor="let ci of cartItems.slice().reverse()" class="item-remove-animate">
+
+      <img src="{{ci.largeImage}}">
+
+      <ion-item>
+        <h2 class="ellipsis">{{ci.name}}</h2>
+      </ion-item>
+
+      <ion-item>
+        <ion-badge item-left>{{ ci.price | currency: '$' }}</ion-badge>
+        <!-- <span item-left></span> -->
+        <span item-left>x {{ci.qty}}</span>
+        <!-- <button ion-button icon-left clear item-end>
+          <ion-icon name="ios-trash-outline"></ion-icon>
+          Delete
+        </button> -->
+        <!-- <button ion-button color="danger" clear icon-only item-end (click)="deleteItemFromCart(ci.upc)">
+          <ion-icon name='md-trash' is-active="false"></ion-icon>
+        </button> -->
+      </ion-item>
+
+    </ion-card>
+
+
+
+  </div>
+  <div *ngIf="cartTotalQty() == 0">
+    <ion-card class="animate-in-secondary">
+      <img src="assets/imgs/scan-2.jpg" />
+      <ion-card-content>
+        <button ion-button block icon-left large (click)="scanQrcode()">
+          <ion-icon name="ios-barcode-outline"></ion-icon>
+          Scan QRCode
+        </button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <!-- <button ion-button full icon-left large>
+    <ion-icon name="md-checkmark-circle-outline"></ion-icon>
+    Approve Purchase
+  </button> -->
+  <ion-toolbar>
+    <ion-title>
+      <ion-icon name="md-cart"></ion-icon> TOTAL: {{ cartTotalAmt() | currency: '$' }}</ion-title>
+  </ion-toolbar>
+</ion-footer>

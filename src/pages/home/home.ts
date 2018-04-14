@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, MenuController } from 'ionic-angular';
 
 import { LoginPage } from '../login/login';
 
@@ -9,8 +9,8 @@ import { LoginPage } from '../login/login';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
-
+  constructor(public navCtrl: NavController, private menuCtrl: MenuController) {
+    this.menuCtrl = menuCtrl;
   }
 
   slides = [
@@ -28,6 +28,11 @@ export class HomePage {
 
   navigateTologin() {
     this.navCtrl.setRoot(LoginPage);
+  }
+
+  ionViewWillEnter() {
+    this.menuCtrl.enable(false);
+    this.menuCtrl.swipeEnable(false)
   }
 
 }

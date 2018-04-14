@@ -1,0 +1,61 @@
+page-payment {
+  .button {
+    margin: 0px !important;
+  }
+  .card-container {
+    margin-top: 10px;
+  }
+  .checkout {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #ffffff;
+    border: 1px solid #F4F2F7;
+    box-shadow: 0 1px 2px rgba(0,0,0,.3);
+  }
+  .checkout > p {
+    zoom: 1;
+  }
+  .checkout > p:before, .checkout > p:after {
+    content: '';
+    display: table;
+  }
+  .checkout > p:after {
+    clear: both;
+  }
+  .checkout > p + p {
+    margin-top: 15px;
+  }
+
+  .checkout-input {
+    float: left;
+    padding: 20px;
+    // height: 32px;
+    color: #525864;
+    background: #F4F2F7;
+    font-size: 1.2em;
+    border: 0;
+    box-shadow: none !important;
+  }
+
+  .checkout-fname, .checkout-lname {
+    width: 48.5%;
+  }
+
+  .checkout-lname {
+    margin-left: 10px;
+  }
+
+  .checkout-card {
+    width: 68%;
+  }
+
+  .checkout-exp {
+    margin-left: 10px;
+    width: 28%;
+  }
+
+  .checkout-cvc {
+    width: 100%;
+  }
+}

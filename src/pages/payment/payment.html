@@ -1,0 +1,41 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>CHECKOUT</ion-title>
+  </ion-navbar>
+  <ion-toolbar color="primary">
+    <ion-title>
+      <ion-icon name="md-cart"></ion-icon> TOTAL: {{ cartTotalAmt() | currency: '$' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <div class="card-container"></div>
+  <form card container=".card-container"
+  card-width="385" [messages]="messages" [placeholders]="placeholders" [masks]="any"
+  formatting="true" debug="true" class="checkout" name="paymentForm">
+    <p>
+      <input [(ngModel)]="cardInfo.number" name="number" type="text" class="checkout-input checkout-card" placeholder="Card Number" required card-number/>
+      <input [(ngModel)]="cardInfo.exp" name="exp" type="text" class="checkout-input checkout-exp" placeholder="MM/YY" required card-expiry/>
+    </p>
+    <p>
+      <input [(ngModel)]="cardInfo.fname" name="fname" type="text" class="checkout-input checkout-fname" placeholder="First Name" required card-name/>
+      <input [(ngModel)]="cardInfo.lname" name="lname" type="text" class="checkout-input checkout-lname" placeholder="Last Name" required card-name/>
+
+    </p>
+    <p>
+      <input [(ngModel)]="cardInfo.cvc" name="cvc" type="number" class="checkout-input checkout-cvc" placeholder="CVC/CVC Number" required card-cvc/>
+    </p>
+
+  </form>
+
+</ion-content>
+
+<ion-footer>
+  <button ion-button full icon-right large (click)="makePayment()">
+    COMPLETE ORDER
+    <ion-icon name="arrow-forward"></ion-icon>
+  </button>
+</ion-footer>

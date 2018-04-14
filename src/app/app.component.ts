@@ -9,6 +9,8 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { CartPage } from '../pages/cart/cart';
 import { MainPage } from '../pages/main/main';
+import { PaymentPage } from '../pages/payment/payment';
+import { OrderHistoryPage } from '../pages/order-history/order-history';
 
 @Component({
   templateUrl: 'app.html'
@@ -45,6 +47,10 @@ export class MyApp {
       this.splashScreen.hide();
       this.storage.get('isLoggedIn').then(isLoggedIn => {
           this.rootPage = isLoggedIn ? MainPage : HomePage;
+          this.storage.get('isStoreClerk').then(isStoreClerk => {
+            console.log(isStoreClerk);
+              this.rootPage = isStoreClerk ? OrderHistoryPage : this.rootPage;
+          });
       });
     });
   }

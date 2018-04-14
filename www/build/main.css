@@ -25686,6 +25686,10 @@ input:focus {
   padding: 6px 10px !important;
 }
 
+.text-center {
+  text-align: center;
+}
+
 @-webkit-keyframes animateInPrimary {
   0% {
     -webkit-transform: translate3d(-100%, 0, 0);
@@ -25754,6 +25758,101 @@ page-cart #cart-badge {
   position: absolute;
   top: -5px;
   right: 10px;
+}
+
+page-complete-order p {
+  color: #f53d3d !important;
+  font-size: 14px !important;
+}
+
+page-complete-order h2 {
+  margin-top: 20px !important;
+  font-size: 24px !important;
+}
+
+page-complete-order .checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #06DAA1;
+  fill: none;
+  -webkit-animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+page-complete-order .checkmark {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  margin: 10% auto;
+  -webkit-box-shadow: inset 0 0 0 #06DAA1;
+  box-shadow: inset 0 0 0 #06DAA1;
+  -webkit-animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+  animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+}
+
+page-complete-order .checkmark__check {
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  -webkit-animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@-webkit-keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@-webkit-keyframes scale {
+  0%,
+  100% {
+    -webkit-transform: none;
+    transform: none;
+  }
+  50% {
+    -webkit-transform: scale3d(1.1, 1.1, 1);
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+@keyframes scale {
+  0%,
+  100% {
+    -webkit-transform: none;
+    transform: none;
+  }
+  50% {
+    -webkit-transform: scale3d(1.1, 1.1, 1);
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+@-webkit-keyframes fill {
+  100% {
+    -webkit-box-shadow: inset 0 0 0 30px #06DAA1;
+    box-shadow: inset 0 0 0 30px #06DAA1;
+  }
+}
+
+@keyframes fill {
+  100% {
+    -webkit-box-shadow: inset 0 0 0 30px #06DAA1;
+    box-shadow: inset 0 0 0 30px #06DAA1;
+  }
 }
 
 page-home .toolbar-background {
@@ -25871,6 +25970,108 @@ page-main h2 {
 
 page-main p {
   text-transform: capitalize;
+}
+
+page-order-history .ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+page-order-history h2 {
+  font-weight: 400 !important;
+  text-transform: capitalize;
+  font-size: 18px !important;
+  margin: 0;
+}
+
+page-order-history ion-footer button, page-order-history ion-footer ion-toolbar {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+page-order-history #cart-btn {
+  position: relative;
+}
+
+page-order-history #cart-icon {
+  position: absolute;
+  top: 2px;
+  right: 28px;
+  font-size: 1.6em;
+}
+
+page-order-history #cart-badge {
+  position: absolute;
+  top: -5px;
+  right: 10px;
+}
+
+page-payment .button {
+  margin: 0px !important;
+}
+
+page-payment .card-container {
+  margin-top: 10px;
+}
+
+page-payment .checkout {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #ffffff;
+  border: 1px solid #F4F2F7;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+page-payment .checkout > p {
+  zoom: 1;
+}
+
+page-payment .checkout > p:before, page-payment .checkout > p:after {
+  content: '';
+  display: table;
+}
+
+page-payment .checkout > p:after {
+  clear: both;
+}
+
+page-payment .checkout > p + p {
+  margin-top: 15px;
+}
+
+page-payment .checkout-input {
+  float: left;
+  padding: 20px;
+  color: #525864;
+  background: #F4F2F7;
+  font-size: 1.2em;
+  border: 0;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+page-payment .checkout-fname, page-payment .checkout-lname {
+  width: 48.5%;
+}
+
+page-payment .checkout-lname {
+  margin-left: 10px;
+}
+
+page-payment .checkout-card {
+  width: 68%;
+}
+
+page-payment .checkout-exp {
+  margin-left: 10px;
+  width: 28%;
+}
+
+page-payment .checkout-cvc {
+  width: 100%;
 }
 
 page-register {

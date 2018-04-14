@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, LoadingController, Loading } from 'ionic-angular';
+import { NavController, AlertController, MenuController, LoadingController, Loading } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
@@ -14,8 +14,10 @@ export class RegisterPage {
   constructor(
     private nav: NavController,
     private alertCtrl: AlertController,
+    private menuCtrl: MenuController,
     private loadingCtrl: LoadingController,
     private fire: AngularFireAuth) {
+      this.menuCtrl = menuCtrl;
   }
 
   public register() {
@@ -79,5 +81,10 @@ export class RegisterPage {
       ]
     });
     alert.present();
+  }
+
+  ionViewWillEnter() {
+    this.menuCtrl.enable(false);
+    this.menuCtrl.swipeEnable(false)
   }
 }

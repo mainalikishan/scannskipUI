@@ -1,0 +1,36 @@
+page-order-history {
+  .ellipsis {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  }
+
+  h2 {
+      font-weight: 400 !important;
+      text-transform: capitalize;
+      font-size: 18px !important;
+      margin: 0;
+  }
+
+  ion-footer button, ion-footer ion-toolbar {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #cart-btn {
+     position: relative;
+  }
+
+  #cart-icon{
+    position: absolute;
+    top: 2px;
+    right: 28px;
+    font-size: 1.6em;
+  }
+
+  #cart-badge {
+     position: absolute;
+     top: -5px;
+     right: 10px;
+  }
+}

@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams, AlertController, ToastController, 
 
 import { UtilityServiceProvider } from '../../providers/utility-service/utility-service';
 
+import { PaymentPage } from '../payment/payment';
 /**
  * Generated class for the CartPage page.
  *
@@ -76,7 +77,7 @@ export class CartPage {
         }
         // console.log("Adding to db:");
         // console.log(objCart.items);
-        this.storage.set( this.cartName, this._toJSONString( objCart ) );
+        this.storage.set( this.cartName, this.utility._toJSONString( objCart ) );
       } else {
         // console.log("can't add more than 10 items");
         let toast = this.toastCtrl.create({
@@ -120,7 +121,7 @@ export class CartPage {
                 // console.log("Removing item from cart:");
                 // console.log(this.cartItems);
                 objCart.items = this.cartItems;
-                this.storage.set( this.cartName, this._toJSONString( objCart ) );
+                this.storage.set( this.cartName, this.utility._toJSONString( objCart ) );
                 this.runZone(objCart.items);
                 let toast = this.toastCtrl.create({
                   message: 'Item was removed from your cart!',
@@ -161,7 +162,7 @@ export class CartPage {
   public scanBarcode() {
     this.showLoading();
     this.utility.scanBarcode().then(data => {
-      if(data !== 1) {
+      if(data != 1) {
         if(data && (data.length > 0)) {
           this.item = JSON.parse(data);
           this.addToCart();
@@ -186,6 +187,10 @@ export class CartPage {
     this.loading.present();
   }
 
+  public checkOut() {
+    this.navCtrl.push(PaymentPage);
+  }
+
   checkIfExistingValue(obj, key, value) {
     return obj.some(function (item) {
       return item.upc === value;
@@ -194,7 +199,7 @@ export class CartPage {
 
   findAll() {
     return this.storage.get( this.cartName ).then(cart => {
-      return this._toJSONObject( cart );
+      return this.utility._toJSONObject( cart );
     });
   }
 
@@ -207,26 +212,6 @@ export class CartPage {
     if(item.upc === value) // Case sensitive, will only remove first instance
       return obj.splice(obj.indexOf(item),1);
     })
-  }
-
-  /* Converts a JSON string to a JavaScript object
-   * @param str String the JSON string
-   * @returns obj Object the JavaScript object
-   */
-
-  _toJSONObject ( str ) {
-      var obj = JSON.parse( str );
-      return obj;
-  }
-
-  /* Converts a JavaScript object to a JSON string
-   * @param obj Object the JavaScript object
-   * @returns str String the JSON string
-   */
-
-  _toJSONString ( obj ) {
-      var str = JSON.stringify( obj );
-      return str;
   }
 
 
