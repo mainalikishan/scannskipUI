@@ -79,6 +79,8 @@ export class PaymentPage {
     this.showLoading();
     this.storage.get( 'user' ).then(user => {
       this.storage.get( this.cartName ).then(cart => {
+        console.log("Cart from DB:");
+        console.log(cart);
         let exp = this.cardInfo.exp.split("/");
         let name = this.cardInfo.fname+" "+this.cardInfo.lname;
         let card = {
@@ -90,7 +92,7 @@ export class PaymentPage {
         };
         this.stripe.setPublishableKey('pk_test_CAya8Zg6YrTkcUBfgVWcJtbx');
         this.stripe.createCardToken(card).then((token) => {
-          this.server.makeStripePayment(token, this.cartTotalAmt(), user, cart).then(data => {
+          this.server.makeStripePayment(token, this.cartTotalAmt().toFixed(2), user, cart).then(data => {
             this.storage.set(this.cartName, JSON.stringify({ items: [] }));
             console.log(data);
             // let alert = this.alertCtrl.create({

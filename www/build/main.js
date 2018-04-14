@@ -301,6 +301,8 @@ var PaymentPage = (function () {
         this.showLoading();
         this.storage.get('user').then(function (user) {
             _this.storage.get(_this.cartName).then(function (cart) {
+                console.log("Cart from DB:");
+                console.log(cart);
                 var exp = _this.cardInfo.exp.split("/");
                 var name = _this.cardInfo.fname + " " + _this.cardInfo.lname;
                 var card = {
@@ -312,7 +314,7 @@ var PaymentPage = (function () {
                 };
                 _this.stripe.setPublishableKey('pk_test_CAya8Zg6YrTkcUBfgVWcJtbx');
                 _this.stripe.createCardToken(card).then(function (token) {
-                    _this.server.makeStripePayment(token, _this.cartTotalAmt(), user, cart).then(function (data) {
+                    _this.server.makeStripePayment(token, _this.cartTotalAmt().toFixed(2), user, cart).then(function (data) {
                         _this.storage.set(_this.cartName, JSON.stringify({ items: [] }));
                         console.log(data);
                         // let alert = this.alertCtrl.create({
