@@ -55,7 +55,7 @@ export class ServerProvider {
     console.log("sending card info to server:");
     let data = {
       'token': token,
-      'amount': amount,
+      'amount': parseFloat(amount),
       'user': JSON.parse( user ),
       'myCart': JSON.parse( cart )
     };

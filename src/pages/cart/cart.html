@@ -65,7 +65,7 @@
     <!-- <ion-icon name="md-barcode"></ion-icon> -->
     Contine Shopping
   </button>
-  <button *ngIf="cartTotalQty() == 10" ion-button full icon-left large>
+  <button *ngIf="cartTotalQty() == 10" (click)="checkOut()" ion-button full icon-left large>
     <ion-icon name="md-checkmark-circle-outline"></ion-icon>
     CHECKOUT
   </button>

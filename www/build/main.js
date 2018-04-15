@@ -302,7 +302,8 @@ var PaymentPage = (function () {
         this.storage.get('user').then(function (user) {
             _this.storage.get(_this.cartName).then(function (cart) {
                 console.log("Cart from DB:");
-                console.log(cart);
+                var myCart = cart;
+                console.log(myCart);
                 var exp = _this.cardInfo.exp.split("/");
                 var name = _this.cardInfo.fname + " " + _this.cardInfo.lname;
                 var card = {
@@ -314,7 +315,7 @@ var PaymentPage = (function () {
                 };
                 _this.stripe.setPublishableKey('pk_test_CAya8Zg6YrTkcUBfgVWcJtbx');
                 _this.stripe.createCardToken(card).then(function (token) {
-                    _this.server.makeStripePayment(token, _this.cartTotalAmt().toFixed(2), user, cart).then(function (data) {
+                    _this.server.makeStripePayment(token, _this.cartTotalAmt().toFixed(2), user, myCart).then(function (data) {
                         _this.storage.set(_this.cartName, JSON.stringify({ items: [] }));
                         console.log(data);
                         // let alert = this.alertCtrl.create({
@@ -1214,7 +1215,7 @@ var ServerProvider = (function () {
         console.log("sending card info to server:");
         var data = {
             'token': token,
-            'amount': amount,
+            'amount': parseFloat(amount),
             'user': JSON.parse(user),
             'myCart': JSON.parse(cart)
         };
@@ -1469,7 +1470,7 @@ var CartPage = (function () {
     };
     CartPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-cart',template:/*ion-inline-start:"/Users/mainalikishan/School/FINALSEM/CS595/Client/scannskipUI/src/pages/cart/cart.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Cart</ion-title>\n    <ion-buttons end>\n      <button id="cart-btn" ion-button>\n        <ion-icon id="cart-icon" name="md-basket"></ion-icon>\n        <ion-badge id="cart-badge" color="secondary">{{cartTotalQty()}}</ion-badge>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <div *ngIf="cartTotalQty() > 0">\n    <button *ngIf="cartTotalQty() < 10" (click)="checkOut()" ion-button block icon-left large>\n      <ion-icon name="md-checkmark-circle-outline"></ion-icon>\n      CHECKOUT\n    </button>\n\n    <ion-card *ngFor="let ci of cartItems.slice().reverse()" class="item-remove-animate">\n\n      <img src="{{ci.largeImage}}">\n\n      <ion-item>\n        <h2 class="ellipsis">{{ci.name}}</h2>\n      </ion-item>\n\n      <ion-item>\n        <ion-badge item-left>{{ ci.price | currency: \'$\' }}</ion-badge>\n        <!-- <span item-left></span> -->\n        <span item-left>x {{ci.qty}}</span>\n        <!-- <button ion-button icon-left clear item-end>\n          <ion-icon name="ios-trash-outline"></ion-icon>\n          Delete\n        </button> -->\n        <button ion-button color="danger" clear icon-only item-end (click)="deleteItemFromCart(ci.upc)">\n          <ion-icon name=\'md-trash\' is-active="false"></ion-icon>\n        </button>\n      </ion-item>\n\n    </ion-card>\n\n\n\n  </div>\n  <div *ngIf="cartTotalQty() == 0">\n    <ion-card class="animate-in-secondary">\n      <img src="assets/imgs/empty_cart.png" />\n      <ion-card-content>\n        <button ion-button block icon-left large (click)="scanBarcode()">\n          <ion-icon name="ios-barcode-outline"></ion-icon>\n          Start Shopping\n        </button>\n      </ion-card-content>\n    </ion-card>\n  </div>\n\n</ion-content>\n\n<ion-footer>\n  <button *ngIf="cartTotalQty() > 0 && cartTotalQty() < 10" ion-button full icon-left large (click)="scanBarcode()">\n    <!-- <ion-icon name="md-barcode"></ion-icon> -->\n    Contine Shopping\n  </button>\n  <button *ngIf="cartTotalQty() == 10" ion-button full icon-left large>\n    <ion-icon name="md-checkmark-circle-outline"></ion-icon>\n    CHECKOUT\n  </button>\n  <ion-toolbar>\n    <ion-title>\n      <ion-icon name="md-cart"></ion-icon> TOTAL: {{ cartTotalAmt() | currency: \'$\' }}</ion-title>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/Users/mainalikishan/School/FINALSEM/CS595/Client/scannskipUI/src/pages/cart/cart.html"*/,
+            selector: 'page-cart',template:/*ion-inline-start:"/Users/mainalikishan/School/FINALSEM/CS595/Client/scannskipUI/src/pages/cart/cart.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Cart</ion-title>\n    <ion-buttons end>\n      <button id="cart-btn" ion-button>\n        <ion-icon id="cart-icon" name="md-basket"></ion-icon>\n        <ion-badge id="cart-badge" color="secondary">{{cartTotalQty()}}</ion-badge>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <div *ngIf="cartTotalQty() > 0">\n    <button *ngIf="cartTotalQty() < 10" (click)="checkOut()" ion-button block icon-left large>\n      <ion-icon name="md-checkmark-circle-outline"></ion-icon>\n      CHECKOUT\n    </button>\n\n    <ion-card *ngFor="let ci of cartItems.slice().reverse()" class="item-remove-animate">\n\n      <img src="{{ci.largeImage}}">\n\n      <ion-item>\n        <h2 class="ellipsis">{{ci.name}}</h2>\n      </ion-item>\n\n      <ion-item>\n        <ion-badge item-left>{{ ci.price | currency: \'$\' }}</ion-badge>\n        <!-- <span item-left></span> -->\n        <span item-left>x {{ci.qty}}</span>\n        <!-- <button ion-button icon-left clear item-end>\n          <ion-icon name="ios-trash-outline"></ion-icon>\n          Delete\n        </button> -->\n        <button ion-button color="danger" clear icon-only item-end (click)="deleteItemFromCart(ci.upc)">\n          <ion-icon name=\'md-trash\' is-active="false"></ion-icon>\n        </button>\n      </ion-item>\n\n    </ion-card>\n\n\n\n  </div>\n  <div *ngIf="cartTotalQty() == 0">\n    <ion-card class="animate-in-secondary">\n      <img src="assets/imgs/empty_cart.png" />\n      <ion-card-content>\n        <button ion-button block icon-left large (click)="scanBarcode()">\n          <ion-icon name="ios-barcode-outline"></ion-icon>\n          Start Shopping\n        </button>\n      </ion-card-content>\n    </ion-card>\n  </div>\n\n</ion-content>\n\n<ion-footer>\n  <button *ngIf="cartTotalQty() > 0 && cartTotalQty() < 10" ion-button full icon-left large (click)="scanBarcode()">\n    <!-- <ion-icon name="md-barcode"></ion-icon> -->\n    Contine Shopping\n  </button>\n  <button *ngIf="cartTotalQty() == 10" (click)="checkOut()" ion-button full icon-left large>\n    <ion-icon name="md-checkmark-circle-outline"></ion-icon>\n    CHECKOUT\n  </button>\n  <ion-toolbar>\n    <ion-title>\n      <ion-icon name="md-cart"></ion-icon> TOTAL: {{ cartTotalAmt() | currency: \'$\' }}</ion-title>\n  </ion-toolbar>\n</ion-footer>\n'/*ion-inline-end:"/Users/mainalikishan/School/FINALSEM/CS595/Client/scannskipUI/src/pages/cart/cart.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ionic_storage__["b" /* Storage */],
             __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["j" /* NavController */],
